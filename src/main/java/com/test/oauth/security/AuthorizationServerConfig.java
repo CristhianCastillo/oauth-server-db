@@ -1,5 +1,6 @@
 package com.test.oauth.security;
 
+import com.test.oauth.security.custom.EnhancedAuthenticationKeyGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(jdbcTemplate.getDataSource());
+        JdbcTokenStore tokenStore = new JdbcTokenStore(jdbcTemplate.getDataSource());
+        tokenStore.setAuthenticationKeyGenerator(new EnhancedAuthenticationKeyGenerator());
+        return tokenStore;
     }
 
     /**
