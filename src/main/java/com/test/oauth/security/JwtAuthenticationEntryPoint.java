@@ -25,6 +25,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException ex) throws ServletException {
         LOGGER.error("ANSWER ERROR NO ALLOW, NO AUTHORIZATION. MESSAGE - {}", ex.getMessage());
         try {
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            httpServletResponse.getOutputStream().println("{ \"error\": \"" + ex.getMessage() + "\" }");
             handlerExceptionResolver.resolveException(httpServletRequest, httpServletResponse, null, ex);
         } catch (RuntimeException e) {
             throw e;

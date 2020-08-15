@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -41,6 +42,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private InformationToken informationToken;
+
+    @Autowired
+    private WebResponseExceptionTranslator oauth2ResponseExceptionTranslator;
 
     /**
      * Save tokens in database
@@ -107,7 +111,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(tokenStore()) // For save token in memory
                 .accessTokenConverter(accessTokenConverter())
-                .userDetailsService(userService);
+                .userDetailsService(userService)
+                .exceptionTranslator(oauth2ResponseExceptionTranslator);
 //                .tokenEnhancer(tokenEnhancerChain);
     }
 

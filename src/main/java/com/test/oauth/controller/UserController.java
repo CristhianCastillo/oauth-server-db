@@ -45,14 +45,17 @@ public class UserController {
      * @return
      */
     @DeleteMapping(value = "/api/users/logout")
+
     public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
         String authHeader = httpServletRequest.getHeader("Authorization");
+        Map<String, Object> result = new HashMap<>();
         if (authHeader != null) {
             String tokenValue = authHeader.replace("Bearer", "").trim();
-            this.tokenServices.revokeToken(tokenValue);
-            return new ResponseEntity<>("Logout OK!!", HttpStatus.OK);
+            result.put("isLogout", this.tokenServices.revokeToken(tokenValue));
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Logout BAD!!", HttpStatus.BAD_REQUEST);
+            result.put("isLogout", false);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
     }
 

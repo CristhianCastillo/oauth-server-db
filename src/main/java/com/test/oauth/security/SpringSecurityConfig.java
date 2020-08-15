@@ -1,5 +1,6 @@
 package com.test.oauth.security;
 
+import com.test.oauth.security.custom.DisableGetAuthFiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DisableGetAuthFiler jwtAuthenticationFilter() {
+        return new DisableGetAuthFiler();
     }
 
     @Bean
