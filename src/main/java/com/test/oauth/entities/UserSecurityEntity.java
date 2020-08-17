@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSecurityEntity {
+public class UserSecurityEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "user_sequence_key_id")

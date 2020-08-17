@@ -19,10 +19,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 @Configuration
@@ -105,15 +107,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         log.debug("##### OAUTH ##### " + Calendar.getInstance().getTimeInMillis() + " - Configuring Endpoints Autorization Server");
 
 
-//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), informationToken));
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), informationToken));
 
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(tokenStore()) // For save token in memory
                 .accessTokenConverter(accessTokenConverter())
                 .userDetailsService(userService)
-                .exceptionTranslator(oauth2ResponseExceptionTranslator);
-//                .tokenEnhancer(tokenEnhancerChain);
+                .exceptionTranslator(oauth2ResponseExceptionTranslator)
+                .tokenEnhancer(tokenEnhancerChain);
     }
 
     /**
