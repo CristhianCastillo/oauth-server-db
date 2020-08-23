@@ -45,7 +45,6 @@ public class UserController {
      * @return
      */
     @DeleteMapping(value = "/api/users/logout")
-
     public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
         String authHeader = httpServletRequest.getHeader("Authorization");
         Map<String, Object> result = new HashMap<>();

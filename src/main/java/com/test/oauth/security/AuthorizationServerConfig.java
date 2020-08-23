@@ -111,7 +111,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), informationToken));
 
         endpoints.authenticationManager(authenticationManager)
-                .tokenStore(tokenStore()) // For save token in memory
+                .tokenStore(tokenStore())
                 .accessTokenConverter(accessTokenConverter())
                 .userDetailsService(userService)
                 .exceptionTranslator(oauth2ResponseExceptionTranslator)
